@@ -11,5 +11,6 @@ defmodule Pushups.Repo.Migrations.Users do
       timestamps()
 
     end
+    create unique_index(:users, [:user])
   end
 end
