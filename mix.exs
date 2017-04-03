@@ -34,7 +34,8 @@ defmodule Pushups.Mixfile do
       {:plug, "~> 1.0"},
       {:poison, "~> 3.0"},
       {:postgrex, "~> 0.13.2"},
-      {:ecto, "~> 2.1"}
+      {:ecto, "~> 2.1"},
+      {:mix_test_watch, "~> 0.3", only: :dev, runtime: false}
     ]
   end
 end

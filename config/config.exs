@@ -2,6 +2,11 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+# if Mix.env == :dev do
+#   config :mix_test_watch,
+#     clear: true
+# end
+
 config :pushups, Pushups.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "pushups_repo",
