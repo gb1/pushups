@@ -2,14 +2,26 @@ defmodule Pushups.Routine do
   alias Pushups.{User,Repo}
 
   def welcome(user) do
+    """
+    Hi, welcome to 100 pushups! 😄
 
-    case Repo.get_by(User, user: user) do
-      nil ->
-        create_user(user)
-        "Hi, welcome to 100 pushups"
-      _user ->
-        "welcome back!"
-    end
+    This is a six week training program where at the end you'll be able to
+    do 100 pushups in a row 💪💪
+
+    We'll do an initial fitness test first to
+    find what level you are at.
+
+    Would you like to start now? 😗
+    """
+    # case Repo.get_by(User, user: user) do
+    #   nil ->
+    #     "hi stranger"
+    #     # create_user(user)
+    #     # """
+    #
+    #   _user ->
+    #     "welcome back!"
+    # end
   end
 
   def create_user(user) do
@@ -29,7 +41,20 @@ defmodule Pushups.Routine do
   end
 
   def routine_for_day(week, day) do
-    
+
+  end
+
+  def get_session_id(json) do
+    json["sessionId"]
+  end
+
+  def is_date_in_the_past?(date) do
+    case Date.compare(NaiveDateTime.to_date(date), Date.utc_today()) do
+      :lt ->
+        true
+      _ ->
+        false
+    end
   end
 
 end

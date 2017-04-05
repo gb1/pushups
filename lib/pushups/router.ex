@@ -1,5 +1,6 @@
 defmodule Pushups.Router do
   use Plug.Router
+  alias Pushups.{Routine, Reply}
 
   plug Plug.Parsers, parsers: [:json],
                    pass:  ["text/*"],
@@ -17,19 +18,31 @@ defmodule Pushups.Router do
   end
 
   post "/boop" do
-    IO.puts "post!"
     IO.puts inspect conn.body_params, pretty: true, limit: 30000
 
-    # resp = %{fulfillment: %{ speech: "Gregor", displayText: "Gregor", source: "agent"}}
 
-    resp = conn.body_params
-    |> Map.get("result")
-    |> Map.get("fulfillment")
-    |> Map.put("speech", "cool story bro!!!!!!!!")
+    # IO.inspect  Poison.encode!(reply)
+    case conn.body_params |> Map.get("result") |> Map.get("action") do
+      "start" ->
+        welcome = Routine.welcome(Routine.get_session_id(conn.body_params))
+        reply = %Reply{ speech: welcome, displayText: welcome }
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, Poison.encode!(reply))
+      "start-yes" ->
+        reply = %Reply{ speech: "ok yes", displayText: "ok" }
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, Poison.encode!(reply))
+      _ ->
+        reply = %Reply{ speech: "???", displayText: "??" }
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, Poison.encode!(reply))
+      end
 
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, Poison.encode!(resp))
   end
+
+
 
 end
